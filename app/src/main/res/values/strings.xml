@@ -14,5 +14,7 @@
     <string name="blue">Blue</string>
     <string name="red_underlined"><u>Red</u></string>
     <string name="blue_underlined"><u>Blue</u></string>
+    <string name="arrow_down_description">Arrow down</string>
+    <string name="score_placeholders">%1$d:%2$d</string>
 
 </resources>

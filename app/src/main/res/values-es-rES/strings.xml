@@ -15,4 +15,6 @@
     <string name="blue">Azul</string>
     <string name="red_underlined"><u>Rojo</u></string>
     <string name="blue_underlined"><u>Azul</u></string>
+    <string name="arrow_down_description">Flecha hacia abajo</string>
+    <string name="score_placeholders">%1$d:%2$d</string>
 </resources>
