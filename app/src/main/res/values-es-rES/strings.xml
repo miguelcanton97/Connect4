@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Conecta 4</string>
+    <string name="connect4">Conecta 4</string>
+    <string name="play">Jugar</string>
+    <string name="home">Casa</string>
+    <string name="restart">Reiniciar</string>
+    <string name="clean">Limpiar</string>
+    <string name="player1">Jugador 1</string>
+    <string name="player2">Jugador 2</string>
+    <string name="score">0:0</string>
+    <string name="board">Tablero</string>
+    <string name="chip">Ficha</string>
+    <string name="red">Rojo</string>
+    <string name="blue">Azul</string>
+    <string name="red_underlined"><u>Rojo</u></string>
+    <string name="blue_underlined"><u>Azul</u></string>
+</resources>
