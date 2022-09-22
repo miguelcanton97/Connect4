@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.miguelcanton.conecta4.R
 import com.miguelcanton.conecta4.databinding.ActivityGameBinding
 import com.miguelcanton.conecta4.ui.main.MainActivity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class GameActivity : AppCompatActivity() {
@@ -56,7 +57,7 @@ class GameActivity : AppCompatActivity() {
                         finish()
                     }
 
-                    if(state.addNewChip){
+                    if(state.addNewChip && state.boardEnabled){
                         val image = binding.boardGridLayout.getChildAt(state.newChip.first) as ImageView
                         if (state.newChip.second == GameViewModel.Players.PLAYER1){
                             image.setImageResource(R.drawable.chip_red_white_dotted)
@@ -65,6 +66,21 @@ class GameActivity : AppCompatActivity() {
                             image.setImageResource(R.drawable.chip_blue_white_dotted)
                         }
                         viewModel.newChipAdded()
+                    }
+
+                    if(state.chipsWinIndex.isNotEmpty()){
+                        for(index in state.chipsWinIndex){
+                            val image = binding.boardGridLayout.getChildAt(index) as ImageView
+                            if (state.playerTurn == GameViewModel.Players.PLAYER1){
+                                image.setImageResource(R.drawable.chip_star_red_white_dotted)
+                            }
+                            if (state.playerTurn == GameViewModel.Players.PLAYER2){
+                                image.setImageResource(R.drawable.chip_star_blue_white_dotted)
+                            }
+                        }
+                        delay(10000)
+                        cleanBoard()
+                        viewModel.chipsWinShowed()
                     }
 
                     if (state.showError){
