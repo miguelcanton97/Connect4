@@ -1,27 +1,29 @@
 package com.miguelcanton.conecta4.ui.game
 
 import androidx.lifecycle.ViewModel
-import com.miguelcanton.conecta4.domain.Board
-import com.miguelcanton.conecta4.domain.Chip
-import com.miguelcanton.conecta4.domain.Columns
+import com.miguelcanton.conecta4.domain.*
 import com.miguelcanton.conecta4.domain.Game.Companion.NUM_COLUMNS
 import com.miguelcanton.conecta4.domain.Game.Companion.NUM_ROWS
-import com.miguelcanton.conecta4.domain.Players
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class GameViewModel : ViewModel() {
+@HiltViewModel
+class GameViewModel @Inject constructor(
+    private val game: Game
+) : ViewModel() {
 
-    private val board = mutableMapOf<Int, Chip>()
+    //private val board = mutableMapOf<Int, Chip>()
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
     init {
         (0 until NUM_ROWS * NUM_COLUMNS).forEach {
-            board[it] = Chip.EMPTY
+            game.board[it] = Chip.EMPTY
         }
     }
 
@@ -58,8 +60,8 @@ class GameViewModel : ViewModel() {
     }
 
     private fun cleanBoard() {
-        for ((index, _) in board) {
-            board[index] = Chip.EMPTY
+        for ((index, _) in game.board) {
+            game.board[index] = Chip.EMPTY
         }
     }
 
@@ -130,12 +132,12 @@ class GameViewModel : ViewModel() {
     }
 
     private fun addChipIfPossible(columnClicked: Int) {
-        if (board[columnClicked] == Chip.EMPTY) {
+        if (game.board[columnClicked] == Chip.EMPTY) {
             val lowerChip = columnClicked + 35
             val higherChip = columnClicked
 
             for (chipIndex in lowerChip downTo higherChip step 7) {
-                if (board[chipIndex] == Chip.EMPTY) {
+                if (game.board[chipIndex] == Chip.EMPTY) {
 
                     _state.update {
                         it.copy(
@@ -145,8 +147,8 @@ class GameViewModel : ViewModel() {
                     }
 
                     when (_state.value.playerTurn) {
-                        Players.PLAYER1 -> board[chipIndex] = Chip.PLAYER1
-                        Players.PLAYER2 -> board[chipIndex] = Chip.PLAYER2
+                        Players.PLAYER1 -> game.board[chipIndex] = Chip.PLAYER1
+                        Players.PLAYER2 -> game.board[chipIndex] = Chip.PLAYER2
                     }
 
                     if (!checkIfWin()) changeTurn()
@@ -200,7 +202,7 @@ class GameViewModel : ViewModel() {
             var win = 0
             val chipsWinIndex = emptyList<Int>().toMutableList()
             for (index in diaognal) {
-                if (board[index] == chipPlayer) {
+                if (game.board[index] == chipPlayer) {
                     chipsWinIndex += index
                     win++
                     if (win == 4) {
@@ -227,7 +229,7 @@ class GameViewModel : ViewModel() {
             var win = 0
             val chipsWinIndex = emptyList<Int>().toMutableList()
             for (index in diaognal) {
-                if (board[index] == chipPlayer) {
+                if (game.board[index] == chipPlayer) {
                     chipsWinIndex += index
                     win++
                     if (win == 4) {
@@ -254,7 +256,7 @@ class GameViewModel : ViewModel() {
             var win = 0
             val chipsWinIndex = emptyList<Int>().toMutableList()
             for (index in column) {
-                if (board[index] == chipPlayer) {
+                if (game.board[index] == chipPlayer) {
                     chipsWinIndex += index
                     win++
                     if (win == 4) {
@@ -281,7 +283,7 @@ class GameViewModel : ViewModel() {
             var win = 0
             val chipsWinIndex = emptyList<Int>().toMutableList()
             for (index in row) {
-                if (board[index] == chipPlayer) {
+                if (game.board[index] == chipPlayer) {
                     chipsWinIndex += index
                     win++
                     if (win == 4) {

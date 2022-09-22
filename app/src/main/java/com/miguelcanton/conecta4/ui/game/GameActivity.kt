@@ -12,15 +12,22 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.miguelcanton.conecta4.R
 import com.miguelcanton.conecta4.databinding.ActivityGameBinding
+import com.miguelcanton.conecta4.domain.Chip
+import com.miguelcanton.conecta4.domain.Game
 import com.miguelcanton.conecta4.domain.Players
 import com.miguelcanton.conecta4.ui.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
     private val viewModel: GameViewModel by viewModels()
+
+    @Inject lateinit var game: Game
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +47,15 @@ class GameActivity : AppCompatActivity() {
             binding.boardGridLayout.getChildAt(index).setOnClickListener{
                 //Toast.makeText(this@GameActivity, "Elemento clickado $index", Toast.LENGTH_SHORT).show()
                 viewModel.chipClicked(index)
+            }
+        }
+
+        for (index in 0 until binding.boardGridLayout.size){
+            val image = binding.boardGridLayout.getChildAt(index) as ImageView
+            when(game.board[index]){
+                Chip.PLAYER1 -> image.setImageResource(R.drawable.chip_red_white_dotted)
+                Chip.PLAYER2 -> image.setImageResource(R.drawable.chip_blue_white_dotted)
+                else -> {image.setImageResource(R.drawable.chip_empty)}
             }
         }
 

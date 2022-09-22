@@ -1,8 +1,11 @@
 package com.miguelcanton.conecta4.domain
 
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class Game {
-    private val board = mutableMapOf<Int, Chip>()
+@Singleton
+class Game @Inject constructor() {
+    val board = mutableMapOf<Int, Chip>()
 
     companion object{
         const val NUM_ROWS = 7
