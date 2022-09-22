@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.miguelcanton.conecta4.R
 import com.miguelcanton.conecta4.databinding.ActivityGameBinding
+import com.miguelcanton.conecta4.domain.Players
 import com.miguelcanton.conecta4.ui.main.MainActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,8 +49,8 @@ class GameActivity : AppCompatActivity() {
                 viewModel.state.collect { state ->
 
                     binding.resultTextView.text = getString(R.string.score_placeholders,state.player1Wins, state.player2Wins)
-                    binding.player1TextView.text = if (state.playerTurn == GameViewModel.Players.PLAYER1) getText(R.string.red_underlined) else getString(R.string.red)
-                    binding.player2TextView.text = if (state.playerTurn == GameViewModel.Players.PLAYER2) getText(R.string.blue_underlined) else getString(R.string.blue)
+                    binding.player1TextView.text = if (state.playerTurn == Players.PLAYER1) getText(R.string.red_underlined) else getString(R.string.red)
+                    binding.player2TextView.text = if (state.playerTurn == Players.PLAYER2) getText(R.string.blue_underlined) else getString(R.string.blue)
 
                     if (state.navigateToHome){
                         startActivity(Intent(this@GameActivity, MainActivity::class.java))
@@ -59,10 +60,10 @@ class GameActivity : AppCompatActivity() {
 
                     if(state.addNewChip && state.boardEnabled){
                         val image = binding.boardGridLayout.getChildAt(state.newChip.first) as ImageView
-                        if (state.newChip.second == GameViewModel.Players.PLAYER1){
+                        if (state.newChip.second == Players.PLAYER1){
                             image.setImageResource(R.drawable.chip_red_white_dotted)
                         }
-                        if (state.newChip.second == GameViewModel.Players.PLAYER2){
+                        if (state.newChip.second == Players.PLAYER2){
                             image.setImageResource(R.drawable.chip_blue_white_dotted)
                         }
                         viewModel.newChipAdded()
@@ -71,10 +72,10 @@ class GameActivity : AppCompatActivity() {
                     if(state.chipsWinIndex.isNotEmpty()){
                         for(index in state.chipsWinIndex){
                             val image = binding.boardGridLayout.getChildAt(index) as ImageView
-                            if (state.playerTurn == GameViewModel.Players.PLAYER1){
+                            if (state.playerTurn == Players.PLAYER1){
                                 image.setImageResource(R.drawable.chip_star_red_white_dotted)
                             }
-                            if (state.playerTurn == GameViewModel.Players.PLAYER2){
+                            if (state.playerTurn == Players.PLAYER2){
                                 image.setImageResource(R.drawable.chip_star_blue_white_dotted)
                             }
                         }

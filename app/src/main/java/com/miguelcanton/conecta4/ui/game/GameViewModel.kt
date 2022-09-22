@@ -1,6 +1,12 @@
 package com.miguelcanton.conecta4.ui.game
 
 import androidx.lifecycle.ViewModel
+import com.miguelcanton.conecta4.domain.Board
+import com.miguelcanton.conecta4.domain.Chip
+import com.miguelcanton.conecta4.domain.Columns
+import com.miguelcanton.conecta4.domain.Game.Companion.NUM_COLUMNS
+import com.miguelcanton.conecta4.domain.Game.Companion.NUM_ROWS
+import com.miguelcanton.conecta4.domain.Players
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,17 +23,6 @@ class GameViewModel : ViewModel() {
         (0 until NUM_ROWS * NUM_COLUMNS).forEach {
             board[it] = Chip.EMPTY
         }
-    }
-
-    enum class Players {
-        PLAYER1,
-        PLAYER2
-    }
-
-    enum class Chip {
-        EMPTY,
-        PLAYER1,
-        PLAYER2
     }
 
     data class UiState(
@@ -58,14 +53,14 @@ class GameViewModel : ViewModel() {
         }
     }
 
+    fun gameRestarted() {
+        _state.update { it.copy(cleanBoard = false) }
+    }
+
     private fun cleanBoard() {
         for ((index, _) in board) {
             board[index] = Chip.EMPTY
         }
-    }
-
-    fun gameRestarted() {
-        _state.update { it.copy(cleanBoard = false) }
     }
 
     fun onNavigateToHome() {
@@ -91,7 +86,6 @@ class GameViewModel : ViewModel() {
         }
     }
 
-
     private fun changeStarterPlayer() {
         when (state.value.starterPlayer) {
             Players.PLAYER1 -> _state.update { it.copy(starterPlayer = Players.PLAYER2) }
@@ -106,85 +100,10 @@ class GameViewModel : ViewModel() {
             Players.PLAYER2 -> Chip.PLAYER2
         }
 
-        //Check rows
-        for (row in rows) {
-            var win = 0
-            val chipsWinIndex = emptyList<Int>().toMutableList()
-            for (index in row) {
-                if (board[index] == chipPlayer) {
-                    chipsWinIndex += index
-                    win++
-                    if (win == 4) {
-                        addWin()
-                        _state.update { it.copy(boardEnabled = false, chipsWinIndex = chipsWinIndex) }
-                        return true
-                    }
-                } else {
-                    chipsWinIndex.removeAll(0 until win)
-                    win = 0
-                }
-            }
-        }
-
-        //Check columns
-        for (column in columns) {
-            var win = 0
-            val chipsWinIndex = emptyList<Int>().toMutableList()
-            for (index in column) {
-                if (board[index] == chipPlayer) {
-                    chipsWinIndex += index
-                    win++
-                    if (win == 4) {
-                        addWin()
-                        _state.update { it.copy(boardEnabled = false, chipsWinIndex = chipsWinIndex) }
-                        return true
-                    }
-                } else {
-                    chipsWinIndex.removeAll(0 until win)
-                    win = 0
-                }
-            }
-        }
-
-        //Check rigth diagonals
-        for (diaognal in rightDiagonals) {
-            var win = 0
-            val chipsWinIndex = emptyList<Int>().toMutableList()
-            for (index in diaognal) {
-                if (board[index] == chipPlayer) {
-                    chipsWinIndex += index
-                    win++
-                    if (win == 4) {
-                        addWin()
-                        _state.update { it.copy(boardEnabled = false, chipsWinIndex = chipsWinIndex) }
-                        return true
-                    }
-                } else {
-                    chipsWinIndex.removeAll(0 until win)
-                    win = 0
-                }
-            }
-        }
-
-        //Check left diagonals
-        for (diaognal in leftDiagonals) {
-            var win = 0
-            val chipsWinIndex = emptyList<Int>().toMutableList()
-            for (index in diaognal) {
-                if (board[index] == chipPlayer) {
-                    chipsWinIndex += index
-                    win++
-                    if (win == 4) {
-                        addWin()
-                        _state.update { it.copy(boardEnabled = false, chipsWinIndex = chipsWinIndex) }
-                        return true
-                    }
-                } else {
-                    chipsWinIndex.removeAll(0 until win)
-                    win = 0
-                }
-            }
-        }
+        if (checkIfRowWin(chipPlayer)) return true
+        if (checkIfColumnWin(chipPlayer)) return true
+        if (checkIfRightDiagonalWin(chipPlayer)) return true
+        if (checkIfLeftDiagonalWin(chipPlayer)) return true
 
         return false
     }
@@ -196,58 +115,16 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    companion object {
-        private const val NUM_ROWS = 7
-        private const val NUM_COLUMNS = 6
-
-        private val COLUMN0 = 0..35 step 7
-        private val COLUMN1 = 1..36 step 7
-        private val COLUMN2 = 2..37 step 7
-        private val COLUMN3 = 3..38 step 7
-        private val COLUMN4 = 4..39 step 7
-        private val COLUMN5 = 5..40 step 7
-        private val COLUMN6 = 6..41 step 7
-
-        private val columns = listOf(COLUMN0, COLUMN1, COLUMN2, COLUMN3, COLUMN4, COLUMN5, COLUMN6)
-
-        private val ROW0 = 0..6
-        private val ROW1 = 7..13
-        private val ROW2 = 14..20
-        private val ROW3 = 21..27
-        private val ROW4 = 28..34
-        private val ROW5 = 35..41
-
-        private val rows = listOf(ROW0, ROW1, ROW2, ROW3, ROW4, ROW5)
-
-        private val DIAGONAL_RIGHT1 = 3..21 step 6
-        private val DIAGONAL_RIGHT2 = 4..28 step 6
-        private val DIAGONAL_RIGHT3 = 5..35 step 6
-        private val DIAGONAL_RIGHT4 = 6..36 step 6
-        private val DIAGONAL_RIGHT5 = 13..37 step 6
-        private val DIAGONAL_RIGHT6 = 20..38 step 6
-
-        private val rightDiagonals = listOf(DIAGONAL_RIGHT1, DIAGONAL_RIGHT2, DIAGONAL_RIGHT3, DIAGONAL_RIGHT4, DIAGONAL_RIGHT5, DIAGONAL_RIGHT6)
-
-        private val DIAGONAL_LEFT1 = 14..38 step 8
-        private val DIAGONAL_LEFT2 = 7..39 step 8
-        private val DIAGONAL_LEFT3 = 0..40 step 8
-        private val DIAGONAL_LEFT4 = 1..41 step 8
-        private val DIAGONAL_LEFT5 = 2..34 step 8
-        private val DIAGONAL_LEFT6 = 3..27 step 8
-
-        private val leftDiagonals = listOf(DIAGONAL_LEFT1, DIAGONAL_LEFT2, DIAGONAL_LEFT3, DIAGONAL_LEFT4, DIAGONAL_LEFT5, DIAGONAL_LEFT6)
-    }
-
     fun chipClicked(index: Int) {
         if (state.value.boardEnabled) {
             when (index) {
-                in COLUMN0 -> addChipIfPossible(0)
-                in COLUMN1 -> addChipIfPossible(1)
-                in COLUMN2 -> addChipIfPossible(2)
-                in COLUMN3 -> addChipIfPossible(3)
-                in COLUMN4 -> addChipIfPossible(4)
-                in COLUMN5 -> addChipIfPossible(5)
-                in COLUMN6 -> addChipIfPossible(6)
+                in Columns.COLUMN0 -> addChipIfPossible(0)
+                in Columns.COLUMN1 -> addChipIfPossible(1)
+                in Columns.COLUMN2 -> addChipIfPossible(2)
+                in Columns.COLUMN3 -> addChipIfPossible(3)
+                in Columns.COLUMN4 -> addChipIfPossible(4)
+                in Columns.COLUMN5 -> addChipIfPossible(5)
+                in Columns.COLUMN6 -> addChipIfPossible(6)
             }
         }
     }
@@ -316,5 +193,113 @@ class GameViewModel : ViewModel() {
 
     private fun cleanWinList() {
         _state.update { it.copy(chipsWinIndex = emptyList<Int>().toMutableList()) }
+    }
+
+    private fun checkIfLeftDiagonalWin(chipPlayer: Chip): Boolean {
+        for (diaognal in Board.LEFT_DIAGONAL_LIST) {
+            var win = 0
+            val chipsWinIndex = emptyList<Int>().toMutableList()
+            for (index in diaognal) {
+                if (board[index] == chipPlayer) {
+                    chipsWinIndex += index
+                    win++
+                    if (win == 4) {
+                        addWin()
+                        _state.update {
+                            it.copy(
+                                boardEnabled = false,
+                                chipsWinIndex = chipsWinIndex
+                            )
+                        }
+                        return true
+                    }
+                } else {
+                    chipsWinIndex.removeAll(0 until win)
+                    win = 0
+                }
+            }
+        }
+        return false
+    }
+
+    private fun checkIfRightDiagonalWin(chipPlayer: Chip): Boolean {
+        for (diaognal in Board.RIGHT_DIAGONAL_LIST) {
+            var win = 0
+            val chipsWinIndex = emptyList<Int>().toMutableList()
+            for (index in diaognal) {
+                if (board[index] == chipPlayer) {
+                    chipsWinIndex += index
+                    win++
+                    if (win == 4) {
+                        addWin()
+                        _state.update {
+                            it.copy(
+                                boardEnabled = false,
+                                chipsWinIndex = chipsWinIndex
+                            )
+                        }
+                        return true
+                    }
+                } else {
+                    chipsWinIndex.removeAll(0 until win)
+                    win = 0
+                }
+            }
+        }
+        return false
+    }
+
+    private fun checkIfColumnWin(chipPlayer: Chip): Boolean {
+        for (column in Board.COLUMN_LIST) {
+            var win = 0
+            val chipsWinIndex = emptyList<Int>().toMutableList()
+            for (index in column) {
+                if (board[index] == chipPlayer) {
+                    chipsWinIndex += index
+                    win++
+                    if (win == 4) {
+                        addWin()
+                        _state.update {
+                            it.copy(
+                                boardEnabled = false,
+                                chipsWinIndex = chipsWinIndex
+                            )
+                        }
+                        return true
+                    }
+                } else {
+                    chipsWinIndex.removeAll(0 until win)
+                    win = 0
+                }
+            }
+        }
+        return false
+    }
+
+    private fun checkIfRowWin(chipPlayer: Chip): Boolean {
+        for (row in Board.ROW_LIST) {
+            var win = 0
+            val chipsWinIndex = emptyList<Int>().toMutableList()
+            for (index in row) {
+                if (board[index] == chipPlayer) {
+                    chipsWinIndex += index
+                    win++
+                    if (win == 4) {
+                        addWin()
+                        _state.update {
+                            it.copy(
+                                boardEnabled = false,
+                                chipsWinIndex = chipsWinIndex
+                            )
+                        }
+                        return true
+                    }
+                } else {
+                    chipsWinIndex.removeAll(0 until win)
+                    win = 0
+                }
+            }
+        }
+        return false
     }
 }
