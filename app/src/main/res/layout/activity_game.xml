@@ -558,10 +558,44 @@
             app:srcCompat="@drawable/chip_blue_white_dotted" />
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/winText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="TextView"
+            android:textSize="28sp"
+            android:visibility="invisible"
+            tools:text="@string/red_win" />
+
+        <Button
+            android:id="@+id/newGameButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/cream"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/new_game"
+            android:textAllCaps="true"
+            android:textColor="@color/red_cream"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:cornerRadius="16dp"
+            app:strokeColor="@color/red_cream"
+            app:strokeWidth="2dp"
+            tools:text="nueva partida" />
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:orientation="horizontal"
         android:weightSum="3">
 

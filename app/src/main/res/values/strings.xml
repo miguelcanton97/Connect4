@@ -16,5 +16,8 @@
     <string name="blue_underlined"><u>Blue</u></string>
     <string name="arrow_down_description">Arrow down</string>
     <string name="score_placeholders">%1$d:%2$d</string>
+    <string name="new_game">New Game</string>
+    <string name="red_win">Red Player Win!</string>
+    <string name="blue_win">Blue Player Win!</string>
 
 </resources>

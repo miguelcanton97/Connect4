@@ -55,7 +55,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun gameRestarted() {
+    fun boardCleaned() {
         _state.update { it.copy(cleanBoard = false) }
     }
 
@@ -71,6 +71,7 @@ class GameViewModel @Inject constructor(
 
     fun navigatedToHomeCompleted() {
         _state.update { it.copy(navigateToHome = false) }
+        cleanBoard()
     }
 
     fun onCleanScore() {
@@ -181,11 +182,12 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun chipsWinShowed() {
+    fun onNewGame() {
+        cleanChipsWinList()
+        _state.update { it.copy(cleanBoard = true) }
         changeStarterPlayer()
         assignStarterPlayer()
         cleanBoard()
-        cleanWinList()
         enableBoard()
     }
 
@@ -193,7 +195,7 @@ class GameViewModel @Inject constructor(
         _state.update { it.copy(boardEnabled = true) }
     }
 
-    private fun cleanWinList() {
+    private fun cleanChipsWinList() {
         _state.update { it.copy(chipsWinIndex = emptyList<Int>().toMutableList()) }
     }
 

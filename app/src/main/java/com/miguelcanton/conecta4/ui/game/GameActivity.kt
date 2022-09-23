@@ -2,6 +2,7 @@ package com.miguelcanton.conecta4.ui.game
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -42,6 +43,8 @@ class GameActivity : AppCompatActivity() {
 
         binding.cleanIcon.setOnClickListener { viewModel.onCleanScore() }
         binding.cleanText.setOnClickListener { viewModel.onCleanScore() }
+
+        binding.newGameButton.setOnClickListener { viewModel.onNewGame() }
 
         for (index in 0 until binding.boardGridLayout.size){
             binding.boardGridLayout.getChildAt(index).setOnClickListener{
@@ -90,14 +93,25 @@ class GameActivity : AppCompatActivity() {
                             val image = binding.boardGridLayout.getChildAt(index) as ImageView
                             if (state.playerTurn == Players.PLAYER1){
                                 image.setImageResource(R.drawable.chip_star_red_white_dotted)
+                                binding.winText.setText(R.string.red_win)
                             }
                             if (state.playerTurn == Players.PLAYER2){
                                 image.setImageResource(R.drawable.chip_star_blue_white_dotted)
+                                binding.winText.setText(R.string.blue_win)
                             }
                         }
-                        delay(10000)
-                        cleanBoard()
-                        viewModel.chipsWinShowed()
+
+                        if (state.playerTurn == Players.PLAYER1){
+                            binding.winText.setText(R.string.red_win)
+                        }
+                        if (state.playerTurn == Players.PLAYER2){
+                            binding.winText.setText(R.string.blue_win)
+                        }
+                        binding.winText.visibility = View.VISIBLE
+                        delay(5000)
+                        binding.winText.visibility = View.INVISIBLE
+                        binding.newGameButton.visibility = View.VISIBLE
+                        //cleanBoard()
                     }
 
                     if (state.showError){
@@ -107,12 +121,13 @@ class GameActivity : AppCompatActivity() {
 
                     if (state.restartGame){
                         cleanBoard()
-                        viewModel.gameRestarted()
+                        viewModel.boardCleaned()
                     }
 
                     if (state.cleanBoard){
                         cleanBoard()
-                        viewModel.gameRestarted()
+                        binding.newGameButton.visibility = View.INVISIBLE
+                        viewModel.boardCleaned()
                     }
                 }
             }
