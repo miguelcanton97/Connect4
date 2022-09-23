@@ -19,5 +19,8 @@
     <string name="new_game">New Game</string>
     <string name="red_win">Red Player Win!</string>
     <string name="blue_win">Blue Player Win!</string>
+    <string name="settings">Settings</string>
+    <string name="arrow_back">Arrow back</string>
+    <string name="dark_mode">Dark Mode</string>
 
 </resources>

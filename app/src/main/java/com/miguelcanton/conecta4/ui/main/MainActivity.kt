@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.miguelcanton.conecta4.databinding.ActivityMainBinding
 import com.miguelcanton.conecta4.ui.game.GameActivity
+import com.miguelcanton.conecta4.ui.settings.SettingsActivity
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -25,13 +26,22 @@ class MainActivity : AppCompatActivity() {
             viewModel.onNavigateToGameScreen()
         }
 
+        binding.settingsButton.setOnClickListener {
+            viewModel.onNavigateToSettingsScreen()
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
-                    if (state.navigation) {
+                    if (state.gameNavigation) {
                         startActivity(Intent(this@MainActivity, GameActivity::class.java))
                         viewModel.onNavigateToGameScreenCompleted()
                         finish()
+                    }
+
+                    if (state.settingsNavigation) {
+                        startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                        viewModel.onNavigateToSettingsScreenCompleted()
                     }
                 }
             }

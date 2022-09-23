@@ -75,18 +75,20 @@ class GameViewModel @Inject constructor(
     }
 
     fun onCleanScore() {
-        if (state.value.boardEnabled) {
+        //if (state.value.boardEnabled) {
             _state.update {
                 it.copy(
                     player1Wins = 0,
                     player2Wins = 0,
                     cleanBoard = true,
                     playerTurn = Players.PLAYER1,
-                    starterPlayer = Players.PLAYER1
+                    starterPlayer = Players.PLAYER1,
+                    chipsWinIndex = emptyList<Int>().toMutableList(),
+                    boardEnabled = true
                 )
             }
             cleanBoard()
-        }
+        //}
     }
 
     private fun changeStarterPlayer() {

@@ -108,7 +108,7 @@ class GameActivity : AppCompatActivity() {
                             binding.winText.setText(R.string.blue_win)
                         }
                         binding.winText.visibility = View.VISIBLE
-                        delay(5000)
+                        delay(3000)
                         binding.winText.visibility = View.INVISIBLE
                         binding.newGameButton.visibility = View.VISIBLE
                         //cleanBoard()

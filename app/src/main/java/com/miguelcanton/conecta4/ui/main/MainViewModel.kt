@@ -12,14 +12,23 @@ class MainViewModel : ViewModel() {
     val state: StateFlow<UiState> = _state.asStateFlow()
 
     data class UiState(
-        val navigation: Boolean = false
+        val gameNavigation: Boolean = false,
+        val settingsNavigation: Boolean = false
     )
 
     fun onNavigateToGameScreen(){
-        _state.update { it.copy(navigation = true)}
+        _state.update { it.copy(gameNavigation = true)}
     }
 
     fun onNavigateToGameScreenCompleted() {
-        _state.update { it.copy(navigation = false)}
+        _state.update { it.copy(gameNavigation = false)}
+    }
+
+    fun onNavigateToSettingsScreen(){
+        _state.update { it.copy(settingsNavigation = true)}
+    }
+
+    fun onNavigateToSettingsScreenCompleted() {
+        _state.update { it.copy(settingsNavigation = false)}
     }
 }
