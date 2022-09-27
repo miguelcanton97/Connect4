@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class SharedPreferencesApi @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
-    fun setDarkMode(darkMode: Boolean){
+    fun setDarkMode(darkMode: Boolean) {
         sharedPreferences.edit()?.putBoolean(DARK_MODE, darkMode)?.apply()
     }
 
@@ -14,8 +14,8 @@ class SharedPreferencesApi @Inject constructor(private val sharedPreferences: Sh
         return sharedPreferences.getBoolean(DARK_MODE, false)
     }
 
-    fun toggleDarkMode(){
-        when(getDarkMode()){
+    fun toggleDarkMode() {
+        when (getDarkMode()) {
             true -> setDarkMode(false)
             false -> setDarkMode(true)
         }

@@ -11,11 +11,11 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class) //di into Application level
+@InstallIn(SingletonComponent::class) //di at Application level
 class SharedPreferencesModule {
 
     @Singleton
     @Provides
-    fun provideSharedPreferences(@ApplicationContext context: Context) : SharedPreferences =
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences(SHARED_NAME, 0)
 }

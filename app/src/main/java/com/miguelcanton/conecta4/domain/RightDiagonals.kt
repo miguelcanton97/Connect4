@@ -1,7 +1,7 @@
 package com.miguelcanton.conecta4.domain
 
 class RightDiagonals {
-    companion object{
+    companion object {
         val DIAGONAL_RIGHT1 = 3..21 step 6
         val DIAGONAL_RIGHT2 = 4..28 step 6
         val DIAGONAL_RIGHT3 = 5..35 step 6

@@ -7,7 +7,7 @@ import javax.inject.Singleton
 class Game @Inject constructor() {
     val board = mutableMapOf<Int, Chip>()
 
-    companion object{
+    companion object {
         const val NUM_ROWS = 7
         const val NUM_COLUMNS = 6
     }

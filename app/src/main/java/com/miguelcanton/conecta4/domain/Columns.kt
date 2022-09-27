@@ -1,7 +1,7 @@
 package com.miguelcanton.conecta4.domain
 
 class Columns {
-    companion object{
+    companion object {
         val COLUMN0 = 0..35 step 7
         val COLUMN1 = 1..36 step 7
         val COLUMN2 = 2..37 step 7

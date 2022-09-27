@@ -2,13 +2,14 @@ package com.miguelcanton.conecta4.ui.settings
 
 import android.animation.Animator
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.miguelcanton.conecta4.R
 import com.miguelcanton.conecta4.databinding.ActivitySettingsBinding
 import com.miguelcanton.conecta4.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,15 +40,16 @@ class SettingsActivity : AppCompatActivity() {
 
                     //Setup switch state and next animation
                     if (state.darkMode) {
-                        binding.darkModeAnimation.setMinAndMaxFrame(290,440)
+                        binding.darkModeAnimation.setMinAndMaxFrame(290, 460)
                         binding.darkModeAnimation.frame = 290
                     } else {
-                        binding.darkModeAnimation.setMinAndMaxFrame(40,190)
-                        binding.darkModeAnimation.frame = 40
+                        binding.darkModeAnimation.setMinAndMaxFrame(20, 190)
+                        binding.darkModeAnimation.frame = 20
                     }
 
                     if (state.homeNavigation) {
                         startActivity(Intent(this@SettingsActivity, MainActivity::class.java))
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                         viewModel.onNavigateToHomeScreenCompleted()
                         finish()
                     }

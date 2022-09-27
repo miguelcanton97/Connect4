@@ -1,7 +1,7 @@
 package com.miguelcanton.conecta4.domain
 
 class Rows {
-    companion object{
+    companion object {
         val ROW0 = 0..6
         val ROW1 = 7..13
         val ROW2 = 14..20

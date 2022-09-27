@@ -13,7 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(private val preferencesRepository: PreferencesRepository) : ViewModel() {
+class SettingsViewModel @Inject constructor(private val preferencesRepository: PreferencesRepository) :
+    ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
@@ -24,7 +25,7 @@ class SettingsViewModel @Inject constructor(private val preferencesRepository: P
         val darkMode: Boolean = false
     )
 
-    init{
+    init {
         viewModelScope.launch {
             val darkMode = preferencesRepository.getDarkMode()
             _state.value = UiState(darkMode = darkMode)

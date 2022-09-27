@@ -28,7 +28,8 @@ class GameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGameBinding
     private val viewModel: GameViewModel by viewModels()
 
-    @Inject lateinit var game: Game
+    @Inject
+    lateinit var game: Game
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,18 +47,20 @@ class GameActivity : AppCompatActivity() {
 
         binding.newGameButton.setOnClickListener { viewModel.onNewGame() }
 
-        for (index in 0 until binding.boardGridLayout.size){
-            binding.boardGridLayout.getChildAt(index).setOnClickListener{
+        for (index in 0 until binding.boardGridLayout.size) {
+            binding.boardGridLayout.getChildAt(index).setOnClickListener {
                 viewModel.chipClicked(index)
             }
         }
 
-        for (index in 0 until binding.boardGridLayout.size){
+        for (index in 0 until binding.boardGridLayout.size) {
             val image = binding.boardGridLayout.getChildAt(index) as ImageView
-            when(game.board[index]){
+            when (game.board[index]) {
                 Chip.PLAYER1 -> image.setImageResource(R.drawable.chip_red_white_dotted)
                 Chip.PLAYER2 -> image.setImageResource(R.drawable.chip_blue_white_dotted)
-                else -> {image.setImageResource(R.drawable.chip_empty)}
+                else -> {
+                    image.setImageResource(R.drawable.chip_empty)
+                }
             }
         }
 
@@ -66,44 +69,53 @@ class GameActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
 
-                    binding.resultTextView.text = getString(R.string.score_placeholders,state.player1Wins, state.player2Wins)
-                    binding.player1TextView.text = if (state.playerTurn == Players.PLAYER1) getText(R.string.red_underlined) else getString(R.string.red)
-                    binding.player2TextView.text = if (state.playerTurn == Players.PLAYER2) getText(R.string.blue_underlined) else getString(R.string.blue)
+                    binding.resultTextView.text =
+                        getString(R.string.score_placeholders, state.player1Wins, state.player2Wins)
+                    binding.player1TextView.text =
+                        if (state.playerTurn == Players.PLAYER1) getText(R.string.red_underlined) else getString(
+                            R.string.red
+                        )
+                    binding.player2TextView.text =
+                        if (state.playerTurn == Players.PLAYER2) getText(R.string.blue_underlined) else getString(
+                            R.string.blue
+                        )
 
-                    if (state.navigateToHome){
+                    if (state.navigateToHome) {
                         startActivity(Intent(this@GameActivity, MainActivity::class.java))
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                         viewModel.navigatedToHomeCompleted()
                         finish()
                     }
 
-                    if(state.addNewChip && state.boardEnabled){
-                        val image = binding.boardGridLayout.getChildAt(state.newChip.first) as ImageView
-                        if (state.newChip.second == Players.PLAYER1){
+                    if (state.addNewChip && state.boardEnabled) {
+                        val image =
+                            binding.boardGridLayout.getChildAt(state.newChip.first) as ImageView
+                        if (state.newChip.second == Players.PLAYER1) {
                             image.setImageResource(R.drawable.chip_red_white_dotted)
                         }
-                        if (state.newChip.second == Players.PLAYER2){
+                        if (state.newChip.second == Players.PLAYER2) {
                             image.setImageResource(R.drawable.chip_blue_white_dotted)
                         }
                         viewModel.newChipAdded()
                     }
 
-                    if(state.chipsWinIndex.isNotEmpty()){
-                        for(index in state.chipsWinIndex){
+                    if (state.chipsWinIndex.isNotEmpty()) {
+                        for (index in state.chipsWinIndex) {
                             val image = binding.boardGridLayout.getChildAt(index) as ImageView
-                            if (state.playerTurn == Players.PLAYER1){
+                            if (state.playerTurn == Players.PLAYER1) {
                                 image.setImageResource(R.drawable.chip_star_red_white_dotted)
                                 binding.winText.setText(R.string.red_win)
                             }
-                            if (state.playerTurn == Players.PLAYER2){
+                            if (state.playerTurn == Players.PLAYER2) {
                                 image.setImageResource(R.drawable.chip_star_blue_white_dotted)
                                 binding.winText.setText(R.string.blue_win)
                             }
                         }
 
-                        if (state.playerTurn == Players.PLAYER1){
+                        if (state.playerTurn == Players.PLAYER1) {
                             binding.winText.setText(R.string.red_win)
                         }
-                        if (state.playerTurn == Players.PLAYER2){
+                        if (state.playerTurn == Players.PLAYER2) {
                             binding.winText.setText(R.string.blue_win)
                         }
                         binding.winText.visibility = View.VISIBLE
@@ -113,17 +125,18 @@ class GameActivity : AppCompatActivity() {
                         //cleanBoard()
                     }
 
-                    if (state.showError){
-                        Toast.makeText(this@GameActivity, "Columna completa", Toast.LENGTH_SHORT).show()
+                    if (state.showError) {
+                        Toast.makeText(this@GameActivity, "Columna completa", Toast.LENGTH_SHORT)
+                            .show()
                         viewModel.showedError()
                     }
 
-                    if (state.restartGame){
+                    if (state.restartGame) {
                         cleanBoard()
                         viewModel.boardCleaned()
                     }
 
-                    if (state.cleanBoard){
+                    if (state.cleanBoard) {
                         cleanBoard()
                         binding.newGameButton.visibility = View.INVISIBLE
                         viewModel.boardCleaned()
@@ -134,7 +147,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun cleanBoard() {
-        for (index in 0 until binding.boardGridLayout.size){
+        for (index in 0 until binding.boardGridLayout.size) {
             val image = binding.boardGridLayout.getChildAt(index) as ImageView
             image.setImageResource(R.drawable.chip_empty)
         }

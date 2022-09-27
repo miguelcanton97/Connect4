@@ -83,7 +83,8 @@
                 android:focusable="true"
                 app:lottie_autoPlay="false"
                 app:lottie_loop="false"
-                app:lottie_rawRes="@raw/dark_mode_animation" />
+                app:lottie_rawRes="@raw/dark_mode_animation"
+                app:lottie_speed="2" />
         </LinearLayout>
     </LinearLayout>
 

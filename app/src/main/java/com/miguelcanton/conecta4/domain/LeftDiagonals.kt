@@ -1,7 +1,7 @@
 package com.miguelcanton.conecta4.domain
 
 class LeftDiagonals {
-    companion object{
+    companion object {
         val DIAGONAL_LEFT1 = 14..38 step 8
         val DIAGONAL_LEFT2 = 7..39 step 8
         val DIAGONAL_LEFT3 = 0..40 step 8
