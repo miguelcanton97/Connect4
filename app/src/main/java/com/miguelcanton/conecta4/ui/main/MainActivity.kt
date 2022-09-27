@@ -4,23 +4,41 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.miguelcanton.conecta4.data.respositories.PreferencesRepository
 import com.miguelcanton.conecta4.databinding.ActivityMainBinding
 import com.miguelcanton.conecta4.ui.game.GameActivity
 import com.miguelcanton.conecta4.ui.settings.SettingsActivity
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+//@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
 
+    /*@Inject
+    lateinit var preferencesRepository: PreferencesRepository*/
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        /*lifecycleScope.launch{
+            val darkMode = preferencesRepository.getDarkMode()
+            if (darkMode)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            else
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }*/
 
         binding.playButton.setOnClickListener {
             viewModel.onNavigateToGameScreen()

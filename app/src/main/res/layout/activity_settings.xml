@@ -55,14 +55,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="9.5">
 
             <ImageView
                 android:id="@+id/imageView6"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="2"
+                android:layout_weight="1.5"
                 android:contentDescription="@string/dark_mode"
                 app:srcCompat="@drawable/moon" />
 
@@ -73,7 +73,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="5"
                 android:text="@string/dark_mode"
-                android:textSize="28sp" />
+                android:textSize="24sp" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/darkModeAnimation"

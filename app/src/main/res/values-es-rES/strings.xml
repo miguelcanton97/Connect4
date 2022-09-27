@@ -18,8 +18,8 @@
     <string name="arrow_down_description">Flecha hacia abajo</string>
     <string name="score_placeholders">%1$d:%2$d</string>
     <string name="new_game">Nueva partida</string>
-    <string name="red_win">!El Jugador Rojo Gana!</string>
-    <string name="blue_win">!El Jugador Azul Gana!</string>
+    <string name="red_win">¡El Jugador Rojo Gana!</string>
+    <string name="blue_win">¡El Jugador Azul Gana!</string>
     <string name="settings">Configuración</string>
     <string name="arrow_back">Flecha hacia atrás</string>
     <string name="dark_mode">Modo oscuro</string>

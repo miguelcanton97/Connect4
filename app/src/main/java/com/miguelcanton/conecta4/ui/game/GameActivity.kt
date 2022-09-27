@@ -48,7 +48,6 @@ class GameActivity : AppCompatActivity() {
 
         for (index in 0 until binding.boardGridLayout.size){
             binding.boardGridLayout.getChildAt(index).setOnClickListener{
-                //Toast.makeText(this@GameActivity, "Elemento clickado $index", Toast.LENGTH_SHORT).show()
                 viewModel.chipClicked(index)
             }
         }

@@ -9,6 +9,7 @@
     <Button
         android:id="@+id/playButton"
         style="@style/button_main"
+        android:backgroundTint="@color/red_cream"
         android:text="@string/play"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
