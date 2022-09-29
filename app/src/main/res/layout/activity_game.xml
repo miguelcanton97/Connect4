@@ -655,14 +655,14 @@
                 android:id="@+id/cleanIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:contentDescription="@string/clean"
+                android:contentDescription="@string/clear"
                 app:srcCompat="@drawable/clean" />
 
             <TextView
                 android:id="@+id/cleanText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/clean"
+                android:text="@string/clear"
                 android:textAlignment="center" />
 
         </LinearLayout>

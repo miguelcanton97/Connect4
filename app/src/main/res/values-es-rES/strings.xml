@@ -5,7 +5,7 @@
     <string name="play">Jugar</string>
     <string name="home">Casa</string>
     <string name="restart">Reiniciar</string>
-    <string name="clean">Limpiar</string>
+    <string name="clear">Limpiar</string>
     <string name="player1">Jugador 1</string>
     <string name="player2">Jugador 2</string>
     <string name="score">0:0</string>
