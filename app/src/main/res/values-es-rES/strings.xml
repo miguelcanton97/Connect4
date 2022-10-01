@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Conecta 4</string>
     <string name="connect4">Conecta 4</string>
-    <string name="play">Jugar</string>
+    <string name="play">jugar</string>
     <string name="home">Casa</string>
     <string name="restart">Reiniciar</string>
     <string name="clear">Limpiar</string>
@@ -23,4 +23,5 @@
     <string name="settings">Configuración</string>
     <string name="arrow_back">Flecha hacia atrás</string>
     <string name="dark_mode">Modo oscuro</string>
+    <string name="welcome">¡Bienvenido al clásico juego 4 en raya!</string>
 </resources>

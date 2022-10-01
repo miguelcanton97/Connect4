@@ -66,7 +66,12 @@ class GameViewModel @Inject constructor(
     }
 
     fun onNavigateToHome() {
-        _state.update { it.copy(navigateToHome = true) }
+        _state.update {
+            it.copy(
+                navigateToHome = true,
+                chipsWinIndex = emptyList<Int>().toMutableList() //For not re-show win text message
+            )
+        }
     }
 
     fun navigatedToHomeCompleted() {
@@ -75,20 +80,18 @@ class GameViewModel @Inject constructor(
     }
 
     fun onCleanScore() {
-        //if (state.value.boardEnabled) {
-            _state.update {
-                it.copy(
-                    player1Wins = 0,
-                    player2Wins = 0,
-                    cleanBoard = true,
-                    playerTurn = Players.PLAYER1,
-                    starterPlayer = Players.PLAYER1,
-                    chipsWinIndex = emptyList<Int>().toMutableList(),
-                    boardEnabled = true
-                )
-            }
-            cleanBoard()
-        //}
+        _state.update {
+            it.copy(
+                player1Wins = 0,
+                player2Wins = 0,
+                cleanBoard = true,
+                playerTurn = Players.PLAYER1,
+                starterPlayer = Players.PLAYER1,
+                chipsWinIndex = emptyList<Int>().toMutableList(),
+                boardEnabled = true
+            )
+        }
+        cleanBoard()
     }
 
     private fun changeStarterPlayer() {

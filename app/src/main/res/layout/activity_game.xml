@@ -15,7 +15,7 @@
         android:layout_weight="1.5"
         android:contentDescription="@string/connect4"
         android:rotation="4.3"
-        app:srcCompat="@drawable/logo_conecta_4" />
+        app:srcCompat="@drawable/connect_4_logo" />
 
     <LinearLayout
         android:layout_width="match_parent"
