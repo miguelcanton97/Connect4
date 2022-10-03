@@ -6,7 +6,7 @@ Android app of the classic "4-in-a-row" game.
 Developed for the [monthly app challenge](https://github.com/mouredev/Monthly-App-Challenge-2022) proposed by [MoureDev](https://github.com/mouredev).
 
 ## Installation
-You can download the app using the provided [APK file](https://github.com/miguelcanton97/Connect4/blob/master/app/release/Connect4.apk).
+You can download the app using the provided [APK file](https://github.com/miguelcanton97/Connect4/raw/master/app/release/Connect4.apk).
 
 ## Screenshots
 Home | Home (Dark mode)
