@@ -16,8 +16,6 @@ class GameViewModel @Inject constructor(
     private val game: Game
 ) : ViewModel() {
 
-    //private val board = mutableMapOf<Int, Chip>()
-
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
@@ -99,21 +97,6 @@ class GameViewModel @Inject constructor(
             Players.PLAYER1 -> _state.update { it.copy(starterPlayer = Players.PLAYER2) }
             Players.PLAYER2 -> _state.update { it.copy(starterPlayer = Players.PLAYER1) }
         }
-    }
-
-    private fun checkIfWin(): Boolean {
-
-        val chipPlayer = when (state.value.playerTurn) {
-            Players.PLAYER1 -> Chip.PLAYER1
-            Players.PLAYER2 -> Chip.PLAYER2
-        }
-
-        if (checkIfRowWin(chipPlayer)) return true
-        if (checkIfColumnWin(chipPlayer)) return true
-        if (checkIfRightDiagonalWin(chipPlayer)) return true
-        if (checkIfLeftDiagonalWin(chipPlayer)) return true
-
-        return false
     }
 
     private fun addWin() {
@@ -204,11 +187,11 @@ class GameViewModel @Inject constructor(
         _state.update { it.copy(chipsWinIndex = emptyList<Int>().toMutableList()) }
     }
 
-    private fun checkIfLeftDiagonalWin(chipPlayer: Chip): Boolean {
-        for (diaognal in Board.LEFT_DIAGONAL_LIST) {
+    private fun checkIfWinByLane(chipPlayer: Chip, arrayList: List<IntProgression>): Boolean {
+        for (array in arrayList) {
             var win = 0
             val chipsWinIndex = emptyList<Int>().toMutableList()
-            for (index in diaognal) {
+            for (index in array) {
                 if (game.board[index] == chipPlayer) {
                     chipsWinIndex += index
                     win++
@@ -231,84 +214,17 @@ class GameViewModel @Inject constructor(
         return false
     }
 
-    private fun checkIfRightDiagonalWin(chipPlayer: Chip): Boolean {
-        for (diaognal in Board.RIGHT_DIAGONAL_LIST) {
-            var win = 0
-            val chipsWinIndex = emptyList<Int>().toMutableList()
-            for (index in diaognal) {
-                if (game.board[index] == chipPlayer) {
-                    chipsWinIndex += index
-                    win++
-                    if (win == 4) {
-                        addWin()
-                        _state.update {
-                            it.copy(
-                                boardEnabled = false,
-                                chipsWinIndex = chipsWinIndex
-                            )
-                        }
-                        return true
-                    }
-                } else {
-                    chipsWinIndex.removeAll(0 until win)
-                    win = 0
-                }
-            }
-        }
-        return false
-    }
+    private fun checkIfWin(): Boolean {
 
-    private fun checkIfColumnWin(chipPlayer: Chip): Boolean {
-        for (column in Board.COLUMN_LIST) {
-            var win = 0
-            val chipsWinIndex = emptyList<Int>().toMutableList()
-            for (index in column) {
-                if (game.board[index] == chipPlayer) {
-                    chipsWinIndex += index
-                    win++
-                    if (win == 4) {
-                        addWin()
-                        _state.update {
-                            it.copy(
-                                boardEnabled = false,
-                                chipsWinIndex = chipsWinIndex
-                            )
-                        }
-                        return true
-                    }
-                } else {
-                    chipsWinIndex.removeAll(0 until win)
-                    win = 0
-                }
-            }
+        val chipPlayer = when (state.value.playerTurn) {
+            Players.PLAYER1 -> Chip.PLAYER1
+            Players.PLAYER2 -> Chip.PLAYER2
         }
-        return false
-    }
 
-    private fun checkIfRowWin(chipPlayer: Chip): Boolean {
-        for (row in Board.ROW_LIST) {
-            var win = 0
-            val chipsWinIndex = emptyList<Int>().toMutableList()
-            for (index in row) {
-                if (game.board[index] == chipPlayer) {
-                    chipsWinIndex += index
-                    win++
-                    if (win == 4) {
-                        addWin()
-                        _state.update {
-                            it.copy(
-                                boardEnabled = false,
-                                chipsWinIndex = chipsWinIndex
-                            )
-                        }
-                        return true
-                    }
-                } else {
-                    chipsWinIndex.removeAll(0 until win)
-                    win = 0
-                }
-            }
-        }
+        if (checkIfWinByLane(chipPlayer, Board.ROW_LIST)) return true
+        if (checkIfWinByLane(chipPlayer, Board.COLUMN_LIST)) return true
+        if (checkIfWinByLane(chipPlayer, Board.LEFT_DIAGONAL_LIST)) return true
+        if (checkIfWinByLane(chipPlayer, Board.RIGHT_DIAGONAL_LIST)) return true
         return false
     }
 }

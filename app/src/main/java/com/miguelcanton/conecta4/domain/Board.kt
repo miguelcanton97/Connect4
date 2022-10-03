@@ -2,7 +2,14 @@ package com.miguelcanton.conecta4.domain
 
 class Board {
     companion object {
-        val ROW_LIST = listOf(Rows.ROW0, Rows.ROW1, Rows.ROW2, Rows.ROW3, Rows.ROW4, Rows.ROW5)
+        val ROW_LIST = listOf(
+            Rows.ROW0,
+            Rows.ROW1,
+            Rows.ROW2,
+            Rows.ROW3,
+            Rows.ROW4,
+            Rows.ROW5
+        )
         val COLUMN_LIST = listOf(
             Columns.COLUMN0,
             Columns.COLUMN1,
